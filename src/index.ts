@@ -7,7 +7,7 @@ import * as helmet from 'helmet';
 import * as cors from 'cors';
 import BOT from './discord-bot';
 import routes from './routes';
-import { handleError } from './utils/errors';
+import { handleError, ErrorHandler } from './utils/errors';
 
 //Connects to the Database -> then starts the express
 createConnection()
@@ -25,10 +25,21 @@ createConnection()
     app.use('/', routes);
 
     app.use((err, req, res, next) => {
+      console.log('error 1');
       handleError(err, res);
+    });
+    app.use(function handleAppError(error, req, res, next) {
+      console.log('errors');
+      if (error instanceof ErrorHandler) {
+        return res.status(400).json({
+          type: 'AssertionError',
+          message: error.message,
+        });
+      }
+      next(error);
     });
     app.listen(process.env.PORT || 3000, () => {
       console.log(`Server started on port ${process.env.PORT}!`);
     });
   })
-  .catch(error => console.log(error));
+  .catch(error => console.log('error end', error));

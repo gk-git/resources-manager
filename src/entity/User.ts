@@ -5,18 +5,25 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Length, IsNotEmpty } from 'class-validator';
-import * as bcrypt from 'bcryptjs';
+  OneToMany
+} from "typeorm";
+import { Length, IsNotEmpty, IsEmail, IsIn } from "class-validator";
+import * as bcrypt from "bcryptjs";
+import { Post } from "./resources/Post";
+import { Tag } from "./resources/Tag";
+import { Log } from "./Log";
+import { IsUniq } from "@join-com/typeorm-class-validator-is-uniq";
+import { Category } from "./resources/Category";
 
-@Entity()
-@Unique(['username'])
+@Entity("users")
+@Unique(["username", "email"])
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
   @Column()
   @Length(4, 20)
+  @IsUniq({ scope: ["username"] })
   username: string;
 
   @Column()
@@ -24,6 +31,12 @@ export class User {
   password: string;
 
   @Column()
+  @IsEmail()
+  @IsUniq({ scope: ["email"] })
+  email: string;
+
+  @Column()
+  @IsIn(["ADMIN", "AUTHOR", "SUBSCRIBER", "EDITOR"])
   @IsNotEmpty()
   role: string;
 
@@ -34,6 +47,30 @@ export class User {
   @Column()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(
+    type => Post,
+    post => post.user
+  )
+  posts: Post[];
+
+  @OneToMany(
+    type => Category,
+    category => category.user
+  )
+  categories: Category[];
+
+  @OneToMany(
+    type => Tag,
+    tag => tag.user
+  )
+  tags: Tag[];
+
+  @OneToMany(
+    type => Log,
+    log => log.user
+  )
+  logs: Log[];
 
   hashPassword() {
     this.password = bcrypt.hashSync(this.password, 8);
