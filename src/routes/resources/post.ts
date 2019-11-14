@@ -9,25 +9,17 @@ const router = Router();
 router.get("/", [checkJwt, checkRole(["ADMIN"])], PostController.listAll);
 
 // Get one user
-router.get(
-  "/:id([0-9]+)",
-  [checkJwt, checkRole(["ADMIN"])],
-  PostController.getOneById
-);
+router.get("/:id", [checkJwt, checkRole(["ADMIN"])], PostController.getOneById);
 
 //Create a new user
 router.post("/", [checkJwt, checkRole(["ADMIN"])], PostController.newPost);
 
 //Edit one user
-router.patch(
-  "/:id([0-9]+)",
-  [checkJwt, checkRole(["ADMIN"])],
-  PostController.editPost
-);
+router.patch("/:id", [checkJwt, checkRole(["ADMIN"])], PostController.editPost);
 
 //Delete one user
 router.delete(
-  "/:id([0-9]+)",
+  "/:id",
   [checkJwt, checkRole(["ADMIN"])],
   PostController.deletePost
 );

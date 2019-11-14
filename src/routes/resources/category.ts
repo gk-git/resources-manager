@@ -5,33 +5,33 @@ import { checkRole } from "../../middleware/checkRole";
 
 const router = Router();
 
-//Get all users
+//Get all categories
 router.get("/", [checkJwt, checkRole(["ADMIN"])], CategoryController.listAll);
 
-// Get one user
+// Get one category
 router.get(
-  "/:id([0-9]+)",
+  "/:id",
   [checkJwt, checkRole(["ADMIN"])],
   CategoryController.getOneById
 );
 
-//Create a new user
+//Create a new category
 router.post(
   "/",
   [checkJwt, checkRole(["ADMIN"])],
   CategoryController.newCategory
 );
 
-//Edit one user
+//Edit one category
 router.patch(
-  "/:id([0-9]+)",
+  "/:id",
   [checkJwt, checkRole(["ADMIN"])],
   CategoryController.editCategory
 );
 
-//Delete one user
+//Delete one category
 router.delete(
-  "/:id([0-9]+)",
+  "/:id",
   [checkJwt, checkRole(["ADMIN"])],
   CategoryController.deleteCategory
 );

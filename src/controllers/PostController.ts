@@ -9,7 +9,7 @@ import { ErrorHandler } from "../utils/errors";
 import { json } from "body-parser";
 import { slugify } from "../utils";
 
-class UserController {
+class PostController {
   static listAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       //Get users from database
@@ -28,7 +28,7 @@ class UserController {
     next: NextFunction
   ) => {
     //Get the ID from the url
-    const id: number = parseInt(req.params.id);
+    const id: string = req.params.id;
 
     //Get the user from database
     const postRepository = getRepository(Post);
@@ -37,6 +37,7 @@ class UserController {
       res.status(200).json(jsonResponse(post));
     } catch (error) {
       next(new ErrorHandler(404, `No post with id: '${id}`));
+      return;
     }
   };
 
@@ -67,7 +68,8 @@ class UserController {
     try {
       await postRepository.save(post);
     } catch (e) {
-      throw new ErrorHandler(409, "username already in use");
+      next(new ErrorHandler(409, "username already in use"));
+      return;
     }
 
     //If all ok, send 201 response
@@ -112,6 +114,7 @@ class UserController {
       await postRepository.save(post);
     } catch (e) {
       next(new ErrorHandler(409, "username already in use"));
+      return;
     }
     //After all send a 204 (no content, but accepted) response
     res.status(202).json(jsonResponse({ ...post }, 202));
@@ -130,7 +133,8 @@ class UserController {
     try {
       post = await postRepository.findOneOrFail(id);
     } catch (error) {
-      next(new ErrorHandler(404, "User not found " + error.message));
+      next(new ErrorHandler(404, "Post not found " + error.message));
+      return;
     }
     postRepository.delete(id);
 
@@ -138,4 +142,4 @@ class UserController {
   };
 }
 
-export default UserController;
+export default PostController;

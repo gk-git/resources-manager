@@ -1,23 +1,24 @@
 import { Request, Response, NextFunction } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, getTreeRepository } from "typeorm";
 import { validate } from "class-validator";
 
 import { User } from "../entity/User";
 import { jsonResponse } from "../utils/response";
 import { ErrorHandler } from "../utils/errors";
 import { slugify } from "../utils";
-import { Category } from "../entity/discord/Category";
+import { Category } from "../entity/resources/Category";
 
 class CategoryController {
   static listAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
       //Get users from database
-      const categoryRepository = getRepository(Category);
-      const categories = await categoryRepository.find();
+      const categoryRepository = getTreeRepository(Category);
+      const categories = await categoryRepository.findTrees();
       //Send the users object
       res.status(200).json(jsonResponse(categories));
     } catch (err) {
       next(err);
+      return;
     }
   };
 
@@ -27,15 +28,21 @@ class CategoryController {
     next: NextFunction
   ) => {
     //Get the ID from the url
-    const id: number = parseInt(req.params.id);
+    const id: string = req.params.id;
 
     //Get the user from database
     const categoryRepository = getRepository(Category);
+    const categoryTreeRepository = getTreeRepository(Category);
     try {
       const category = await categoryRepository.findOneOrFail(id);
-      res.status(200).json(jsonResponse(category));
+      const category_with_children = await categoryTreeRepository.findDescendantsTree(
+        category
+      );
+
+      res.status(200).json(jsonResponse(category_with_children));
     } catch (error) {
       next(new ErrorHandler(404, `No category with id: '${id}`));
+      return;
     }
   };
 
@@ -47,14 +54,22 @@ class CategoryController {
     //Get ID from JWT
     const userId = res.locals.jwtPayload.userId;
     //Get parameters from the body
-    let { name, description, url, parentCategoryId } = req.body;
+    let { name, description, parentCategoryId } = req.body;
     const slug = slugify(name);
     const userRepository = getRepository(User);
+    const categoryRepository = getRepository(Category);
+
     const user = await userRepository.findOneOrFail(userId);
+    const parentCategory = await categoryRepository.findOneOrFail(
+      parentCategoryId
+    );
     let category = new Category();
     category.name = name;
     category.slug = slug;
     category.description = description;
+    category.user = user;
+    category.parent = parentCategory;
+    category.children = [];
 
     //Validate if the parameters are ok
     const errors = await validate(category);
@@ -62,13 +77,11 @@ class CategoryController {
       next(new ErrorHandler(400, "Category validation failed", errors));
       return;
     }
-
-    //Try to save. If fails, the username is already in use
-    const categoryRepository = getRepository(Category);
     try {
       await categoryRepository.save(category);
     } catch (e) {
-      throw new ErrorHandler(409, "username already in use");
+      next(new ErrorHandler(409, "username already in use"));
+      return;
     }
 
     //If all ok, send 201 response
@@ -83,10 +96,8 @@ class CategoryController {
     //Get the ID from the url
     const id = req.params.id;
 
-    //Get ID from JWT
-    const userId = res.locals.jwtPayload.userId;
     //Get parameters from the body
-    let { name, description, url } = req.body;
+    let { name, description } = req.body;
 
     //Try to find user on database
     const categoryRepository = getRepository(Category);
@@ -98,7 +109,6 @@ class CategoryController {
         category.slug = slugify(name);
       }
       category.description = description || category.description;
-      category.url = url || category.url;
     } catch (error) {
       //If not found, send a 404 response
       next(new ErrorHandler(404, "Category not found"));
@@ -117,6 +127,7 @@ class CategoryController {
       await categoryRepository.save(category);
     } catch (e) {
       next(new ErrorHandler(409, "username already in use"));
+      return;
     }
     //After all send a 204 (no content, but accepted) response
     res.status(202).json(jsonResponse({ ...category }, 202));
@@ -135,7 +146,8 @@ class CategoryController {
     try {
       category = await categoryRepository.findOneOrFail(id);
     } catch (error) {
-      next(new ErrorHandler(404, "User not found " + error.message));
+      next(new ErrorHandler(404, error.message));
+      return;
     }
     categoryRepository.delete(id);
 
@@ -143,4 +155,4 @@ class CategoryController {
   };
 }
 
-export default UserController;
+export default CategoryController;
