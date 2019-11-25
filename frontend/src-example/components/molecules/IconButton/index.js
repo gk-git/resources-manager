@@ -7,12 +7,12 @@ import { Icon, Button } from 'components'
 
 const fadeIn = keyframes`
   0% { display: none; opacity: 0; }
-  1% { display: block; opacity: 0; }
+  1% { display: block: opacity: 0; }
   100% { display: block; opacity: 1; }
 `
 
 const StyledButton = styled(Button)`
-  max-width: ${props => props.hasText && !props.collapsed ? '100%' : '2.5em'};
+  max-width: ${(props) => props.hasText && !props.collapsed ? '100%' : '2.5em'};
   width: ${ifProp('hasText', 'auto', '2.5em')};
   padding: ${ifProp('hasText', '0 0.4375em', 0)};
   flex: 0 0 2.5em;
@@ -69,8 +69,7 @@ const IconButton = ({ icon, children, ...props }) => {
       <Wrapper>
         {right || iconElement}
         {children
-          && <Text className="text" responsive={responsive} breakpoint={breakpoint}>{children}</Text>
-        }
+          && <Text className="text" responsive={responsive} breakpoint={breakpoint}>{children}</Text>}
         {right && iconElement}
       </Wrapper>
     </StyledButton>

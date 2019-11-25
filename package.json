@@ -1,0 +1,25 @@
+{
+  "name": "Resources-manager",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "back": "cd backend && npm start",
+    "front": "cd frontend && npm start",
+    "start": "concurrently --kill-others-on-fail --names \"back,front\" \"npm run back\" \"npm run front\"",
+    "postinstall": "cd frontend && npm install && cd .. && cd backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gk-git/resources-manager.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gk-git/resources-manager/issues"
+  },
+  "homepage": "https://github.com/gk-git/resources-manager#readme",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
+}

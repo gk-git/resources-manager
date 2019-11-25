@@ -1,65 +1,81 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
-import Link from 'react-router-dom/Link'
-import { font, palette } from 'styled-theme'
-import { ifProp } from 'styled-tools'
+import React from "react";
+import PropTypes from "prop-types";
+import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
+import { font, palette } from "styled-theme";
+import { ifProp } from "styled-tools";
 
-const fontSize = ({ height }) => `${height / 40}rem`
+export const fontSize = ({ height }) => `${height / 40}rem`;
 
-const backgroundColor = ({ transparent, disabled }) => transparent ? 'transparent' : palette(disabled ? 2 : 1)
+export const backgroundColor = ({ transparent, disabled }) =>
+  transparent ? "transparent" : palette(disabled ? 2 : 1);
 
-const foregroundColor = ({ transparent, disabled }) => transparent ? palette(disabled ? 2 : 1) : palette('grayscale', 0, true)
+export const foregroundColor = ({ transparent, disabled }) =>
+  transparent ? palette(disabled ? 2 : 1) : palette("grayscale", 0, true);
 
-const hoverBackgroundColor = ({ disabled, transparent }) => !disabled && !transparent && palette(0)
-const hoverForegroundColor = ({ disabled, transparent }) => !disabled && transparent && palette(0)
+export const hoverBackgroundColor = ({ disabled, transparent }) =>
+  !disabled && !transparent && palette(0);
+export const hoverForegroundColor = ({ disabled, transparent }) =>
+  !disabled && transparent && palette(0);
 
 const styles = css`
   display: inline-flex;
-  font-family: ${font('primary')};
+  font-family: ${font("primary")};
   align-items: center;
   white-space: nowrap;
   font-size: ${fontSize};
-  border: 0.0625em solid ${ifProp('transparent', 'currentcolor', 'transparent')};
+  border: 0.0625em solid ${ifProp("transparent", "currentcolor", "transparent")};
   height: 2.5em;
   justify-content: center;
   text-decoration: none;
-  cursor: ${ifProp('disabled', 'default', 'pointer')};
+  cursor: ${ifProp("disabled", "default", "pointer")};
   appearance: none;
   padding: 0 1em;
   border-radius: 0.125em;
   box-sizing: border-box;
-  pointer-events: ${ifProp('disabled', 'none', 'auto')};
-  transition: background-color 250ms ease-out, color 250ms ease-out, border-color 250ms ease-out;
+  pointer-events: ${ifProp("disabled", "none", "auto")};
+  transition: background-color 250ms ease-out, color 250ms ease-out,
+    border-color 250ms ease-out;
   background-color: ${backgroundColor};
   color: ${foregroundColor};
 
-  &:hover, &:focus, &:active {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: ${hoverBackgroundColor};
     color: ${hoverForegroundColor};
   }
 
   &:focus {
-    outline: none
+    outline: none;
   }
-`
+`;
 
-const StyledLink = styled(({
-  disabled, transparent, reverse, palette, height, theme, ...props
-}) => <Link {...props} />)`${styles}`
+export const StyledLink = styled(
+  ({ disabled, transparent, reverse, palette, height, theme, ...props }) => (
+    <Link {...props} />
+  )
+)`
+  ${styles}
+`;
 
-const Anchor = styled.a`${styles}`
-const StyledButton = styled.button`${styles}`
+export const Anchor = styled.a`
+  ${styles}
+`;
+export const StyledButton = styled.button`
+  ${styles}
+`;
 
 const Button = ({ type, ...props }) => {
-  const { to, href } = props
+  const { to, href } = props;
   if (to) {
-    return <StyledLink {...props} />
-  } if (href) {
-    return <Anchor {...props} />
+    return <StyledLink {...props} />;
   }
-  return <StyledButton {...props} type={type} />
-}
+  if (href) {
+    return <Anchor {...props} />;
+  }
+  return <StyledButton {...props} type={type} />;
+};
 
 Button.propTypes = {
   disabled: PropTypes.bool,
@@ -69,13 +85,13 @@ Button.propTypes = {
   height: PropTypes.number,
   type: PropTypes.string,
   to: PropTypes.string,
-  href: PropTypes.string,
-}
+  href: PropTypes.string
+};
 
 Button.defaultProps = {
-  palette: 'primary',
-  type: 'button',
-  height: 40,
-}
+  palette: "primary",
+  type: "button",
+  height: 40
+};
 
-export default Button
+export default Button;
