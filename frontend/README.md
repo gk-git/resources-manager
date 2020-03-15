@@ -1,84 +1,68 @@
-<p align="center">
-  <img alt="arclogo" src="https://cloud.githubusercontent.com/assets/3068563/23199029/55e9d55a-f8aa-11e6-91a2-74b82db3813c.png"><br><br>
-  <a href="https://github.com/diegohaz/arc/releases/latest"><img src="https://github-release-version.herokuapp.com/github/diegohaz/arc/release.svg?style=flat-square" alt="Latest release" /></a>
-  <a href="https://travis-ci.org/diegohaz/arc"><img src="https://img.shields.io/travis/diegohaz/arc/redux.svg?style=flat-square" alt="Build Status" /></a>
-  <a href="https://codecov.io/gh/diegohaz/arc/branch/redux"><img src="https://img.shields.io/codecov/c/github/diegohaz/arc/redux.svg?style=flat-square" alt="Coverage Status" /></a>
-  <a href="https://gitter.im/diegohaz/arc"><img src="https://img.shields.io/badge/chat-on%20gitter-1dce73.svg?style=flat-square" alt="Gitter chat" /></a>
-</p>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<br />
-<p>
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/tyWoocmAMXP82QQzh26Huzgu/diegohaz/arc'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/tyWoocmAMXP82QQzh26Huzgu/diegohaz/arc.svg' />
-</a>
-</p>
-<br />
+## Available Scripts
 
-## `redux`
+In the project directory, you can run:
 
-- **[Demo](https://arc.js.org)**
-- **[Documentation](https://github.com/diegohaz/arc/wiki)**
+### `yarn start`
 
-## Branches
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-- ### [`master`](https://github.com/diegohaz/arc)
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-  The basic stack with [React](https://facebook.github.io/react/), [Webpack](https://github.com/webpack/webpack), [react-router](https://github.com/ReactTraining/react-router) and [Jest](https://facebook.github.io/jest/).
+### `yarn test`
 
-  - ### [`redux`](https://github.com/diegohaz/arc/tree/redux) <sup><sub>([compare](https://github.com/diegohaz/arc/compare/master...redux?diff=split#files_bucket))</sub></sup>
+Launches the test runner in the interactive watch mode.<br />
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-    Master plus [redux](https://github.com/reactjs/redux), [redux-saga](https://github.com/yelouafi/redux-saga) and [redux-form](https://github.com/erikras/redux-form).
+### `yarn build`
 
-    - ### [`redux-ssr`](https://github.com/diegohaz/arc/tree/redux-ssr) <sup><sub>([compare](https://github.com/diegohaz/arc/compare/redux...redux-ssr?diff=split#files_bucket))</sub></sup>
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-      Redux plus [Server Side Rendering](https://github.com/reactjs/redux/blob/master/docs/recipes/ServerRendering.md)
+The build is minified and the filenames include the hashes.<br />
+Your app is ready to be deployed!
 
-## Setup
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### 1. Get the source code
+### `yarn eject`
 
-Just clone one of the ARc [branches](#branches):
-```sh
-$ git clone -b redux https://github.com/diegohaz/arc my-app
-$ cd my-app
-```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-You will probably want to remove ARc git history and start a brand new repository:
-```sh
-$ rm -rf .git
-$ git init
-```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### 2. Install dependencies
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-```sh
-$ npm install
-```
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### 3. Run the app
+## Learn More
 
-```sh
-$ npm run dev
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-It will start the development server with [HMR](https://webpack.github.io/docs/hot-module-replacement) on top of it.
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-> [http://localhost:3000](http://localhost:3000) — Development server<br>
-> [http://localhost:3001](http://localhost:3001) — Webpack assets server (for `redux-ssr` only)<br>
+### Code Splitting
 
-Now you can open [http://localhost:3000](http://localhost:3000) in browser and start developing.
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-## Contributing
+### Analyzing the Bundle Size
 
-When submitting an issue, use the following patterns in the title for better understanding:
-```bash
-[v0.3.1-redux] Something wrong is not right # the v0.3.1 release of the redux branch
-[redux] Something wrong is not right # the actual code of the redux branch
-Something wrong is right # general, related to master or not directly related to any branch
-```
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
-PRs are very appreciated. For bugs/features consider creating an issue before sending a PR.
+### Making a Progressive Web App
 
-## License
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-MIT © [Diego Haz](https://github.com/diegohaz)
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `yarn build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
